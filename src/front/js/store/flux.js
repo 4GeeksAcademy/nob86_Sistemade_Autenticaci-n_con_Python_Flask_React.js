@@ -13,8 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
-
+			],
+		username: null,
+		password: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -23,7 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			login: async (username, password) => {
-				const resp = await fetch(`https://your_api.com/token`, { 
+				const resp = await fetch(`https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/`, { 
 					 method: "POST",
 					 headers: { "Content-Type": "application/json" },
 					 body: JSON.stringify({ username, password }) 
