@@ -6,6 +6,7 @@ from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from datetime import timedelta
 
 api = Blueprint('api', __name__)
 
@@ -29,7 +30,8 @@ def create_token():
         return jsonify({"msg": "Bad username or password"}), 401
     
     # Crea un nuevo token con el id de usuario dentro
-    access_token = create_access_token(identity=user.id)
+    expires = timedelta(days=2)
+    access_token = create_access_token(identity=user.id, expires_delta = expires)
     return jsonify({ "token": access_token, "user_id": user.id })
 
 @api.route('/users', methods=['GET'])
@@ -40,6 +42,10 @@ def get_users():
     current_user_id = get_jwt_identity()
     print(current_user_id)
     
+    user= User.query.get(current_user_id)
+    if user.role is not 'Admin':
+        return jsonify({'message': 'is not admin'}), 401
+
     return jsonify({'users': result}), 200
 
 @api.route('/hello', methods=['POST', 'GET'])
