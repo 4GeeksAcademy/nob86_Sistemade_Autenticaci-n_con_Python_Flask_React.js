@@ -8,7 +8,8 @@ export const Home = () => {
 
   return (
     <div>
-      <div className="">
+      <div className="border border-1 p-2 mb-25">
+      <span class="border border-5">
       <form>
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label pt-5">
@@ -40,6 +41,7 @@ export const Home = () => {
           Submit
         </button>
       </form>
+      </span>
       </div>
     </div>
   );
