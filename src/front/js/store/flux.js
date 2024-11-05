@@ -15,11 +15,20 @@ const getState = ({ getStore, getActions, setStore }) => {
         },
       ],
       token: null,
+      users: []
     },
     actions: {
       // Use getActions to call a function within a fuction
       exampleFunction: () => {
         getActions().changeColor(0, "green");
+      },
+
+      addUser: (email, password) => {
+        const store = getStore();
+        const newUser = { email, password }; // Crear un objeto de usuario
+        const updatedUsers = [...store.users, newUser];
+        setStore({ users: updatedUsers });
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
       },
 
       login: async (username, password) => {

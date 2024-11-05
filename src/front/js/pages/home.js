@@ -1,48 +1,58 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    actions.addUser(email, password); // Agrega el usuario al store
+    setEmail("");
+    setPassword("");
+  };
 
   return (
-    <div>
-      <div className="border border-1 p-2 mb-25">
-      <span class="border border-5">
-      <form>
-        <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label pt-5">
-            Email address
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="your e-mail adress here"
-          ></input>
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="border border-1 p-4" style={{ width: "50%" }}>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label pt-5">
+              Email address
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Your email address here"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
-        </div>
-        <div className="mb-3">
-          <label for="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="exampleInputPassword1"
-            placeholder="Your password here"
-          ></input>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
-      </span>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Your password here"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+          <Link to="/demo" className="btn btn-secondary ms-2">
+            Go to Demo
+          </Link>
+        </form>
       </div>
     </div>
   );
 };
+
