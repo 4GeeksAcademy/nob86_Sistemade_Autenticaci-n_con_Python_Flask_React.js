@@ -35,7 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         // Recupera el token desde la localStorage
         const token = localStorage.getItem('jwt-token');
    
-        const resp = await fetch(`https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/api/`, {
+        const resp = await fetch(`https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/api/users`, {
            method: 'GET',
            headers: { 
              "Content-Type": "application/json",
