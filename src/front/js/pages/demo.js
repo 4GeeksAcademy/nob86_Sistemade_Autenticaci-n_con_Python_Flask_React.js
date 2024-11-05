@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 
 export const Demo = () => {
   const { store } = useContext(Context);
-
+  
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
       <h1 className="py-5">Lista de Usuarios</h1>

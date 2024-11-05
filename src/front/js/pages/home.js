@@ -48,7 +48,7 @@ export const Home = () => {
             Submit
           </button>
           <Link to="/demo" className="btn btn-secondary ms-2">
-            Go to Demo
+            Go to Users
           </Link>
         </form>
       </div>

@@ -13,7 +13,19 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+@api.route('/signup', methods=['POST'])
+def create_user():
+    request_body = request.json
+    user_query = User.query.filter_by(email = request_body["email"]).first()
+    if user_query is None:
+        create_user = User(email = request_body["email"], password = request_body["password"], is_active = request_body["is_active"])
+        db.session.add(create_user)
+        db.session.commit()
+        response_body = {
+             "msg": "Usuario creado con exito"
+            }
 
+        return jsonify(response_body), 404
 
 # Crea una ruta para autenticar a los usuarios y devolver el token JWT
 # La función create_access_token() se utiliza para generar el JWT
@@ -23,11 +35,13 @@ def create_token():
     password = request.json.get("password", None)
 
     # Consulta la base de datos por el nombre de usuario y la contraseña
-    user = User.query.filter_by(email=email, password=password).first()
+    user = User.query.filter_by(email=email).first()
 
     if user is None:
         # el usuario no se encontró en la base de datos
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "email not found"}), 401
+    elif email != user.email or password != user.password:
+        return jsonify({"msg": "Bad email or password"}), 401
     
     # Crea un nuevo token con el id de usuario dentro
     expires = timedelta(days=2)

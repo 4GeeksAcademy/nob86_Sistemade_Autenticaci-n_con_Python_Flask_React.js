@@ -31,13 +31,55 @@ const getState = ({ getStore, getActions, setStore }) => {
         localStorage.setItem("users", JSON.stringify(updatedUsers));
       },
 
-      login: async (username, password) => {
+      getMyTasks: async () => {
+        // Recupera el token desde la localStorage
+        const token = localStorage.getItem('jwt-token');
+   
+        const resp = await fetch(`https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/api/`, {
+           method: 'GET',
+           headers: { 
+             "Content-Type": "application/json",
+             'Authorization': 'Bearer ' + token // ⬅⬅⬅ authorization token
+           } 
+        });
+   
+        if(!resp.ok) {
+             throw Error("There was a problem in the login request")
+        } else if(resp.status === 403) {
+             throw Error("Missing or invalid token");
+        } else {
+            throw Error("Unknown error");
+        }
+   
+        
+   },
+
+      signup: async (email, password) => {
         const resp = await fetch(
-          `https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/`,
+          `https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/api/signup`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email: email, password: password }),
+          }
+        );
+        if (!resp.ok) throw Error("There was a problem in the signup request");
+
+        if (resp.status === 401) {
+          throw "Invalid credentials";
+        } else if (resp.status === 400) {
+          throw "Invalid email or password format";
+        }
+        const data = await resp.json();
+      },
+
+      login: async (email, password) => {
+        const resp = await fetch(
+          `https://urban-chainsaw-g455rxp7x6vg29jxj-3001.app.github.dev/api/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, password: password }),
           }
         );
 
