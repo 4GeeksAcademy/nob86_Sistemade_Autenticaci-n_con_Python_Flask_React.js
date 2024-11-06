@@ -6,24 +6,33 @@ export const Demo = () => {
   const { store } = useContext(Context);
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    //Buscar al usuario registrado en el store
+    const user = store.users.find(user => user.email === email);
 
-  
-  useEffect(() => {
-    const token = localStorage.getItem("jwt-token");
-    
-   
-  if (!token) {
-      alert("No estás autenticado. Por favor, inicia sesión primero.");
+    if(user) {
+      if(user.password === password) {
+        //si la contraseña es correcta, hacel el login 
+        localStorage.setItem("jwt-token", "some-valid-token")
+        setErrorMessage(""); //limpiar el mensaje de error
+        alert("Login successfull");
+      }else{
+        setErrorMessage("Incorrect password")
+      }
+    }else{
+      setErrorMessage("User not registresd")
     }
-  }, []);
+  }
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
       <h1 className="py-5">Lista de Usuarios</h1>
       
       <div className="border border-1 p-4" style={{ width: "50%" }}>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label pt-5">
               Email address
@@ -50,10 +59,13 @@ export const Demo = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Login
           </button>
           
+          {errorMessage && (
+            <div className="alert alert-danger mt-3">{errorMessage}</div>
+          )}
         </form>
       </div>
 
