@@ -29,7 +29,7 @@ export const Demo = () => {
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">
-      <h1 className="py-5">Lista de Usuarios</h1>
+      <h1 className="py-5">LOGIN</h1>
       
       <div className="border border-1 p-4" style={{ width: "50%" }}>
         <form onSubmit={handleLogin}>

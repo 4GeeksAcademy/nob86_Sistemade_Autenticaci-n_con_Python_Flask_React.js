@@ -15,7 +15,8 @@ export const Home = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
+    <div className="d-flex justify-content-center align-items-center vh-100 flex-column">
+      <h1 className="py-5">SIGN UP</h1>
       <div className="border border-1 p-4" style={{ width: "50%" }}>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
